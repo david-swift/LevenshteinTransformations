@@ -80,24 +80,27 @@ enum LevenshteinTransformations {
             operations[0][targetIndex] = .insert
         }
 
-        for sourceIndex in 1...sourceCount {
-            for targetIndex in 1...targetCount {
-                if source[sourceIndex - 1] == target[targetIndex - 1] {
-                    editDistances[sourceIndex][targetIndex] = editDistances[sourceIndex - 1][targetIndex - 1]
-                    operations[sourceIndex][targetIndex] = .noChange
-                } else {
-                    editDistances[sourceIndex][targetIndex] = 1 + min(
-                        editDistances[sourceIndex - 1][targetIndex - 1],
-                        editDistances[sourceIndex - 1][targetIndex],
-                        editDistances[sourceIndex][targetIndex - 1]
-                    )
-                    if editDistances[sourceIndex][targetIndex] == editDistances[sourceIndex - 1][targetIndex - 1] + 1 {
-                        operations[sourceIndex][targetIndex] = .replace
-                    } else if editDistances[sourceIndex][targetIndex]
-                        == editDistances[sourceIndex - 1][targetIndex] + 1 {
-                        operations[sourceIndex][targetIndex] = .delete
+        if sourceCount > 0 && targetCount > 0 {
+            for sourceIndex in 1...sourceCount {
+                for targetIndex in 1...targetCount {
+                    if source[sourceIndex - 1] == target[targetIndex - 1] {
+                        editDistances[sourceIndex][targetIndex] = editDistances[sourceIndex - 1][targetIndex - 1]
+                        operations[sourceIndex][targetIndex] = .noChange
                     } else {
-                        operations[sourceIndex][targetIndex] = .insert
+                        editDistances[sourceIndex][targetIndex] = 1 + min(
+                            editDistances[sourceIndex - 1][targetIndex - 1],
+                            editDistances[sourceIndex - 1][targetIndex],
+                            editDistances[sourceIndex][targetIndex - 1]
+                        )
+                        if editDistances[sourceIndex][targetIndex]
+                            == editDistances[sourceIndex - 1][targetIndex - 1] + 1 {
+                            operations[sourceIndex][targetIndex] = .replace
+                        } else if editDistances[sourceIndex][targetIndex]
+                            == editDistances[sourceIndex - 1][targetIndex] + 1 {
+                            operations[sourceIndex][targetIndex] = .delete
+                        } else {
+                            operations[sourceIndex][targetIndex] = .insert
+                        }
                     }
                 }
             }
