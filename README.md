@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  <a href=“https://david-swift.github.io/LevenshteinTransformations">
+  <a href="https://david-swift.github.io/LevenshteinTransformations">
   Documentation
   </a>
   ·
@@ -32,7 +32,7 @@ Transform an array into any other array of the same type, or a string into any o
 
 ## Usage
 
-Read the [Getting Started](https://david-swift.github.io/LevenshteinTransformations/documentation/levenshteintransformations/gettingstarted) article to learn how to use this package.
+Read the [Getting Started](https://david-swift.github.io/LevenshteinTransformations/documentation/levenshteintransformations/gettingstarted/#Usage) article to learn how to use this package.
 
 ## Thanks
 
