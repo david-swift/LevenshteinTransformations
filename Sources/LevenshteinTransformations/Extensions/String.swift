@@ -34,4 +34,17 @@ extension String {
         }
     }
 
+    /// Call every transformation step needed to transform the string into the target string.
+    /// - Parameters:
+    ///     - target: The target string.
+    ///     - functions: The transformation functions.
+    public func transform(to target: String, functions: AsyncFunctions<Character>) async {
+        var transformations = getTransformations(to: target)
+
+        while !transformations.isEmpty {
+            let transformation = transformations.removeFirst()
+            await transformation.transform(functions: functions, nextTransformations: &transformations)
+        }
+    }
+
 }

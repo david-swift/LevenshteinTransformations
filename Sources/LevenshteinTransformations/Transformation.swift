@@ -101,6 +101,31 @@ public enum Transformation<Element> {
             }
         }
     }
+
+    /// Apply the transformation using a functions value.
+    /// - Parameters:
+    ///     - functions: The functions value.
+    ///     - nextTransformations: All the following transformations for modifying the indices.
+    public func transform(
+        functions: AsyncFunctions<Element>,
+        nextTransformations: inout [Transformation<Element>]
+    ) async {
+        switch self {
+        case let .replace(index, element):
+            await functions.replace(index, element)
+        case let .delete(index):
+            await functions.delete(index)
+            for index in nextTransformations.indices {
+                nextTransformations[index].index -= 1
+            }
+        case let .insert(index, element):
+            await functions.insert(index, element)
+            for index in nextTransformations.indices {
+                nextTransformations[index].index += 1
+            }
+        }
+    }
+
 }
 
 // swiftlint:enable identifier_name

@@ -34,6 +34,19 @@ extension Array where Element: Equatable {
         }
     }
 
+    /// Call every transformation step needed to transform the array into the target array.
+    /// - Parameters:
+    ///     - target: The target array.
+    ///     - functions: The transformation functions.
+    public func transform(to target: [Element], functions: AsyncFunctions<Element>) async {
+        var transformations = getTransformations(to: target)
+
+        while !transformations.isEmpty {
+            let transformation = transformations.removeFirst()
+            await transformation.transform(functions: functions, nextTransformations: &transformations)
+        }
+    }
+
 }
 
 extension Array where Element: Identifiable {
@@ -62,6 +75,19 @@ extension Array where Element: Identifiable {
         while !transformations.isEmpty {
             let transformation = transformations.removeFirst()
             transformation.transform(functions: functions, nextTransformations: &transformations)
+        }
+    }
+
+    /// Call every transformation step needed to transform the array into the target array.
+    /// - Parameters:
+    ///     - target: The target array.
+    ///     - functions: The transformation functions.
+    public func identifiableTransform(to target: [Element], functions: AsyncFunctions<Element>) async {
+        var transformations = identifiableGetTransformations(to: target)
+
+        while !transformations.isEmpty {
+            let transformation = transformations.removeFirst()
+            await transformation.transform(functions: functions, nextTransformations: &transformations)
         }
     }
 
